@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "lint": "eslint --ext .js .",
+    "lint-checkstyle": "eslint --ext .js --ignore-path .gitignore -o reports/style/eslint.xml -f checkstyle .",
+    "lint-fix": "eslint --ext .js --ignore-path .gitignore --fix ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -12,5 +15,10 @@
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
   }
 }

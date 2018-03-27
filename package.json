@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "cp ./config/config.prod.js ./generated_files/config.js && node ./bin/www",
+    "dev": "cp ./config/config.dev.js ./generated_files/config.js && node ./bin/www",
     "lint": "eslint --ext .js .",
     "lint-checkstyle": "eslint --ext .js --ignore-path .gitignore -o reports/style/eslint.xml -f checkstyle .",
     "lint-fix": "eslint --ext .js --ignore-path .gitignore --fix ."

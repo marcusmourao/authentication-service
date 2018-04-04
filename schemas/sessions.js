@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const {ObjectId} = mongoose.Schema.Types;
-
 mongoose.connect('mongodb://auth-database/authentication');
 
 const db = mongoose.connection;
@@ -12,11 +10,11 @@ db.once('open', () => {
 });
 
 const sessionSchema = mongoose.Schema({
-  user_id: {type: ObjectId, default: null},
+  user_id: {type: String, default: null},
   access_token: {type: String, unique: true},
-  expiration_date: {type: Date},
+  expiration_date: {type: String},
   refresh_token: {type: String, unique: true},
-  refresh_token_expiration: {type: Date},
+  refresh_token_expiration: {type: String},
 });
 const Session = mongoose.model('session', sessionSchema);
 module.exports = Session;

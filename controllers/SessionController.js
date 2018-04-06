@@ -1,10 +1,10 @@
 const log4js = require('log4js');
-const cryptojs = require('crypto');
 const config = require('./../generated_files/config');
 
 const logger = log4js.getLogger();
 
 const Session = require('./../schemas/sessions');
+const SessionService = require('./../services/SessionService');
 
 const SessionController = {};
 
@@ -28,33 +28,7 @@ SessionController.createSession = (req, res) => {
       logger.debug('Session Controller - Create Session - Required Parameter is Missing - user_id', req.body);
       res.status(500).json({message: 'Missing required parameter user_id'});
     } else {
-      const randomStringAccessToken = Math.random().toString();
-      const currentDate = new Date();
-      const accessToken = cryptojs.createHmac('sha512', config.access_token_secret)
-        .update(`${currentDate.toISOString()}${randomStringAccessToken}`)
-        .digest('hex');
-      const randomStringRefreshToken = Math.random().toString();
-      const refreshToken = cryptojs.createHmac('sha512', config.refresh_token_secret)
-        .update(`${currentDate.toISOString()}${randomStringRefreshToken}`)
-        .digest('hex');
-      const now = Date.now();
-      const session = {
-        user_id: userId,
-        access_token: accessToken,
-        expiration_date: new Date(now + (1000 * 60 * 30)).toISOString(), // 30 minutes
-        refresh_token: refreshToken,
-        refresh_token_expiration: new Date(now + (1000 * 60 * 60 * 24 * 7)).toISOString(), // 1 week
-      };
-      const sessionDocument = new Session(session);
-      logger.debug('Session Controller - Create Session - Mount new Session Document');
-      sessionDocument.save((e) => {
-        if (e) {
-          logger.fatal('Session Controller - Create Session - Failed to save session', e);
-          res.status(500).json({message: 'Internal Server Error', error: e});
-        }
-        logger.debug('Session Controller - Create Session - Create and Save Session with Success');
-        res.status(201).json({message: 'Session Created', session});
-      });
+      SessionService.createSession(req, res);
     }
   }
 };

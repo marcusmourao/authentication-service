@@ -3,7 +3,6 @@ const config = require('./../generated_files/config');
 
 const logger = log4js.getLogger();
 
-const Session = require('./../schemas/sessions');
 const SessionService = require('./../services/SessionService');
 
 const SessionController = {};

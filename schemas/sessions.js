@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const config = require('./../generated_files/config');
 
-mongoose.connect('mongodb://auth-database/authentication');
+mongoose.connect(config.database_url);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

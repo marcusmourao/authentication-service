@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cp ./config/config.prod.js ./generated_files/config.js && node ./bin/www",
-    "dev": "cp ./config/config.dev.js ./generated_files/config.js && node ./bin/www",
+    "dev": "cp ./config/config.dev.js ./generated_files/config.js && nodemon ./bin/www",
     "lint": "eslint --ext .js .",
     "lint-checkstyle": "eslint --ext .js --ignore-path .gitignore -o reports/style/eslint.xml -f checkstyle .",
     "lint-fix": "eslint --ext .js --ignore-path .gitignore --fix ."
@@ -22,6 +22,7 @@
   "devDependencies": {
     "eslint": "^4.10.0",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.10.0"
+    "eslint-plugin-import": "^2.10.0",
+    "nodemon": "^1.17.3"
   }
 }

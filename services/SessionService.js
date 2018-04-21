@@ -41,16 +41,17 @@ SessionService.getSession = (req, res) => {
         logger.fatal('Session Service - Get Session - Error on recover session from db', error);
         res.status(500).json({message: 'Interval server error'});
       });
+  } else {
+    logger.debug('Session Service - Get Session - Processing request with refresh token');
+    SessionRepository.findOne({refresh_token: refreshToken})
+      .then((sessionDocument) => {
+        SessionService.processRequestByRefreshToken(sessionDocument, res);
+      })
+      .catch((error) => {
+        logger.fatal('Session Service - Get Session - Error on recover session from db', error);
+        res.status(500).json({message: 'Interval server error'});
+      });
   }
-  logger.debug('Session Service - Get Session - Processing request with refresh token');
-  SessionRepository.findOne({refresh_token: refreshToken})
-    .then((sessionDocument) => {
-      SessionService.processRequestByRefreshToken(sessionDocument, res);
-    })
-    .catch((error) => {
-      logger.fatal('Session Service - Get Session - Error on recover session from db', error);
-      res.status(500).json({message: 'Interval server error'});
-    });
 };
 SessionService.generateAccessToken = () => {
   logger.debug('Session Service - Generate Access Token');
